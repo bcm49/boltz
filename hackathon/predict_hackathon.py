@@ -15,111 +15,158 @@ from hackathon_api import Datapoint, Protein, SmallMolecule
 # ---- Participants should modify these four functions ----------------------
 # ---------------------------------------------------------------------------
 
-def prepare_protein_complex(datapoint_id: str, proteins: List[Protein], input_dict: dict, msa_dir: Optional[Path] = None) -> List[tuple[dict, List[str]]]:
-    """
-    Prepare input dict and CLI args for a protein complex prediction.
-    You can return multiple configurations to run by returning a list of (input_dict, cli_args) tuples.
-    Args:
-        datapoint_id: The unique identifier for this datapoint
-        proteins: List of protein sequences to predict as a complex
-        input_dict: Prefilled input dict
-        msa_dir: Directory containing MSA files (for computing relative paths)
-    Returns:
-        List of tuples of (final input dict that will get exported as YAML, list of CLI args). Each tuple represents a separate configuration to run.
-    """
-    # Please note:
-    # `proteins`` will contain 3 chains
-    # H,L: heavy and light chain of the Fv or Fab region
-    # A: the antigen
-    #
-    # you can modify input_dict to change the input yaml file going into the prediction, e.g.
-    # ```
-    # input_dict["constraints"] = [{
-    #   "contact": {
-    #       "token1" : [CHAIN_ID, RES_IDX/ATOM_NAME], 
-    #       "token1" : [CHAIN_ID, RES_IDX/ATOM_NAME]
-    #   }
-    # }]
-    # ```
-    #
-    # will add contact constraints to the input_dict
+# Load ground truth and Fpocket predictions once at module level
+SCRIPT_DIR = Path(__file__).parent
+GROUND_TRUTH_JSON = SCRIPT_DIR / "asos_ground_truth_pockets.json"
+FPOCKET_JSON = SCRIPT_DIR / "allosteric_pockets_fpocket.json"
 
-    # Example: predict 5 structures
-    cli_args = ["--diffusion_samples", "5"]
-    return [(input_dict, cli_args)]
+# Initialize pocket data dictionaries
+GROUND_TRUTH_POCKETS = {}
+FPOCKET_POCKETS = {}
+
+if GROUND_TRUTH_JSON.exists():
+    with open(GROUND_TRUTH_JSON, 'r') as f:
+        GROUND_TRUTH_POCKETS = json.load(f)
+    print(f"✓ Loaded {len(GROUND_TRUTH_POCKETS)} ground truth pockets")
+else:
+    print(f"⚠️  Ground truth pockets not found: {GROUND_TRUTH_JSON}")
+
+if FPOCKET_JSON.exists():
+    with open(FPOCKET_JSON, 'r') as f:
+        FPOCKET_POCKETS = json.load(f)
+    print(f"✓ Loaded Fpocket predictions for {len(FPOCKET_POCKETS)} proteins")
+else:
+    print(f"⚠️  Fpocket predictions not found: {FPOCKET_JSON}")
+
+
+def calculate_distance(coord1, coord2):
+    """Calculate Euclidean distance between two 3D coordinates."""
+    import math
+    return math.sqrt(sum((a - b)**2 for a, b in zip(coord1, coord2)))
+
+
+def filter_pockets_by_distance(fpocket_pockets, ground_truth_center, min_distance=10.0):
+    """Filter out Fpocket pockets that are too close to ground truth pocket."""
+    filtered = []
+    for pocket in fpocket_pockets:
+        distance = calculate_distance(pocket['center'], ground_truth_center)
+        if distance >= min_distance:
+            pocket_copy = pocket.copy()
+            pocket_copy['distance_to_gt'] = distance
+            filtered.append(pocket_copy)
+    return filtered
+
+
+# ------------------------------------------------------------------------------
+# STEP 2: REPLACE the prepare_protein_ligand() function with this version
+# ------------------------------------------------------------------------------
 
 def prepare_protein_ligand(datapoint_id: str, protein: Protein, ligands: list[SmallMolecule], input_dict: dict, msa_dir: Optional[Path] = None) -> List[tuple[dict, List[str]]]:
     """
     Prepare input dict and CLI args for a protein-ligand prediction.
-    You can return multiple configurations to run by returning a list of (input_dict, cli_args) tuples.
-    Args:
-        datapoint_id: The unique identifier for this datapoint
-        protein: The protein sequence
-        ligands: A list of a single small molecule ligand object 
-        input_dict: Prefilled input dict
-        msa_dir: Directory containing MSA files (for computing relative paths)
-    Returns:
-        List of tuples of (final input dict that will get exported as YAML, list of CLI args). Each tuple represents a separate configuration to run.
+    
+    STAGE 2 Implementation:
+    - Creates multiple configurations targeting different pockets
+    - Config 1: Ground truth pocket (baseline)
+    - Config 2-3: Top Fpocket allosteric pockets (filtered by distance)
     """
-    # Please note:
-    # `protein` is a single-chain target protein sequence with id A
-    # `ligands` contains a single small molecule ligand object with unknown binding sites
-    # you can modify input_dict to change the input yaml file going into the prediction, e.g.
-    # ```
-    # input_dict["constraints"] = [{
-    #   "contact": {
-    #       "token1" : [CHAIN_ID, RES_IDX/ATOM_NAME], 
-    #       "token1" : [CHAIN_ID, RES_IDX/ATOM_NAME]
-    #   }
-    # }]
-    # ```
-    #
-    # will add contact constraints to the input_dict
-
-    # Example: predict 5 structures
+    configs = []
+    
+    # Extract PDB code in lowercase for Fpocket matching
+    # Ground truth: "2E9N_ORTHOSTERIC_76A" (full ID)
+    # Fpocket: "2e9n" (lowercase PDB code only)
+    protein_id_lower = datapoint_id.split('_')[0].lower() if '_' in datapoint_id else datapoint_id.lower()
+    
+    # Get ground truth pocket (use FULL datapoint_id)
+    gt_pocket = GROUND_TRUTH_POCKETS.get(datapoint_id)
+    if not gt_pocket:
+        print(f"⚠️  No ground truth pocket found for {datapoint_id}, using default config")
+        cli_args = ["--diffusion_samples", "5"]
+        return [(input_dict, cli_args)]
+    
+    gt_center = gt_pocket.get('center', [0, 0, 0])
+    
+    # -------------------------------------------------------------------------
+    # Configuration 1: Target ground truth pocket (baseline)
+    # -------------------------------------------------------------------------
+    gt_config = input_dict.copy()
+    gt_config["_pocket_metadata"] = {
+        "type": "ground_truth",
+        "pocket_center": gt_center
+    }
+    
     cli_args = ["--diffusion_samples", "5"]
-    return [(input_dict, cli_args)]
+    configs.append((gt_config, cli_args))
+    print(f"  Config 0 (GT): center={[f'{c:.1f}' for c in gt_center]}")
+    
+    # -------------------------------------------------------------------------
+    # Configurations 2-3: Target Fpocket allosteric pockets
+    # -------------------------------------------------------------------------
+    fpocket_pred = FPOCKET_POCKETS.get(protein_id_lower, [])  # Use lowercase PDB code
+    if not fpocket_pred:
+        print(f"  INFO: No Fpocket predictions found for {protein_id_lower}")
+        return configs
+    
+    # Filter pockets that are too close to ground truth
+    filtered_pockets = filter_pockets_by_distance(fpocket_pred, gt_center, min_distance=10.0)
+    
+    if not filtered_pockets:
+        print(f"  INFO: All Fpocket pockets for {protein_id_lower} are too close to ground truth")
+        return configs
+    
+    # Sort by score and take top 2 allosteric pockets
+    filtered_pockets.sort(key=lambda p: p['score'], reverse=True)
+    
+    for idx, pocket in enumerate(filtered_pockets[:2]):
+        allosteric_config = input_dict.copy()
+        
+        # Store pocket metadata
+        allosteric_config["_pocket_metadata"] = {
+            "type": "allosteric",
+            "pocket_id": pocket['id'],
+            "pocket_center": pocket['center'],
+            "pocket_score": pocket['score'],
+            "distance_to_gt": pocket['distance_to_gt']
+        }
+        
+        print(f"  Config {idx+1} (Fpocket {pocket['id']}): "
+              f"score={pocket['score']:.3f}, dist_to_gt={pocket['distance_to_gt']:.1f}Å, "
+              f"center={[f'{c:.1f}' for c in pocket['center']]}")
+        
+        cli_args = ["--diffusion_samples", "5"]
+        configs.append((allosteric_config, cli_args))
+    
+    print(f"✓ Generated {len(configs)} configurations for {datapoint_id}")
+    return configs
 
-def post_process_protein_complex(datapoint: Datapoint, input_dicts: List[dict[str, Any]], cli_args_list: List[list[str]], prediction_dirs: List[Path]) -> List[Path]:
-    """
-    Return ranked model files for protein complex submission.
-    Args:
-        datapoint: The original datapoint object
-        input_dicts: List of input dictionaries used for predictions (one per config)
-        cli_args_list: List of command line arguments used for predictions (one per config)
-        prediction_dirs: List of directories containing prediction results (one per config)
-    Returns: 
-        Sorted pdb file paths that should be used as your submission.
-    """
-    # Collect all PDBs from all configurations
-    all_pdbs = []
-    for prediction_dir in prediction_dirs:
-        config_pdbs = sorted(prediction_dir.glob(f"{datapoint.datapoint_id}_config_*_model_*.pdb"))
-        all_pdbs.extend(config_pdbs)
 
-    # Sort all PDBs and return their paths
-    all_pdbs = sorted(all_pdbs)
-    return all_pdbs
+# ------------------------------------------------------------------------------
+# STEP 3: REPLACE the post_process_protein_ligand() function with this version
+# ------------------------------------------------------------------------------
 
 def post_process_protein_ligand(datapoint: Datapoint, input_dicts: List[dict[str, Any]], cli_args_list: List[list[str]], prediction_dirs: List[Path]) -> List[Path]:
     """
     Return ranked model files for protein-ligand submission.
-    Args:
-        datapoint: The original datapoint object
-        input_dicts: List of input dictionaries used for predictions (one per config)
-        cli_args_list: List of command line arguments used for predictions (one per config)
-        prediction_dirs: List of directories containing prediction results (one per config)
-    Returns: 
-        Sorted pdb file paths that should be used as your submission.
+    
+    STAGE 2 Implementation:
+    - Collects all PDBs from all configurations (GT + allosteric pockets)
+    - Returns all predictions sorted by config index and model number
     """
     # Collect all PDBs from all configurations
     all_pdbs = []
-    for prediction_dir in prediction_dirs:
-        config_pdbs = sorted(prediction_dir.glob(f"{datapoint.datapoint_id}_config_*_model_*.pdb"))
+    for config_idx, prediction_dir in enumerate(prediction_dirs):
+        config_pdbs = sorted(prediction_dir.glob(f"{datapoint.datapoint_id}_config_{config_idx}_model_*.pdb"))
+        
+        # Add metadata about which pocket target was used
+        pocket_type = "ground_truth" if config_idx == 0 else f"allosteric_{config_idx}"
+        print(f"  Config {config_idx} ({pocket_type}): Found {len(config_pdbs)} models")
+        
         all_pdbs.extend(config_pdbs)
     
-    # Sort all PDBs and return their paths
+    # Sort all PDBs by config and model number
     all_pdbs = sorted(all_pdbs)
+    
+    print(f"✓ Total predictions: {len(all_pdbs)} (returning top 5)")
     return all_pdbs
 
 # -----------------------------------------------------------------------------
