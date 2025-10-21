@@ -1,0 +1,2 @@
+✅ Extracted 48 coordinates from pocket1_vert.pqr
+📄 Saved to pocket1_vert_coordinates.csv
