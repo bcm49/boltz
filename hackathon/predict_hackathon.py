@@ -124,6 +124,7 @@ def post_process_protein_ligand(datapoint: Datapoint, input_dicts: List[dict[str
         all_pdbs.extend(config_pdbs)
     
     for pdb in all_pdbs:
+        subprocess.run(["pymol", "-cq", "hackathon/make_pdb_apo.py", "--", pdb])
         subprocess.run(["fpocket", "-f", pdb])
         fpocket_output_dir = pdb.with_name(f"{pdb.stem}_out") / "pockets"
         for i in range(1, NUM_POCKETS+1):
