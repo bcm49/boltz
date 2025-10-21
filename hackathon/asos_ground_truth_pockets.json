@@ -1,0 +1,642 @@
+{
+  "2E9N_ORTHOSTERIC_76A": {
+    "center": [
+      -2.3939714285714273,
+      8.393942857142857,
+      -17.81597142857143
+    ],
+    "ligand_ccd": "76A",
+    "ligand_type": "orthosteric",
+    "num_atoms": 35,
+    "dimensions": [
+      22.179000000000002,
+      6.792,
+      6.855999999999998
+    ],
+    "cif_file": "2e9n_chain_subset.cif"
+  },
+  "3F9N_ALLOSTERIC_38M": {
+    "center": [
+      26.847837837837837,
+      -7.480702702702701,
+      27.580054054054052
+    ],
+    "ligand_ccd": "38M",
+    "ligand_type": "allosteric",
+    "num_atoms": 37,
+    "dimensions": [
+      10.761000000000003,
+      8.011,
+      11.848000000000003
+    ],
+    "cif_file": "3f9n_chain_subset.cif"
+  },
+  "5MO4_ORTHOSTERIC_NIL": {
+    "center": [
+      -44.15689743589744,
+      22.92141025641025,
+      -19.1818717948718
+    ],
+    "ligand_ccd": "NIL",
+    "ligand_type": "orthosteric",
+    "num_atoms": 39,
+    "dimensions": [
+      8.464000000000006,
+      17.959,
+      8.805
+    ],
+    "cif_file": "5mo4_chain_subset.cif"
+  },
+  "3PYY_ALLOSTERIC_3YY": {
+    "center": [
+      15.138260000000002,
+      15.529199999999996,
+      -25.956099999999996
+    ],
+    "ligand_ccd": "3YY",
+    "ligand_type": "allosteric",
+    "num_atoms": 50,
+    "dimensions": [
+      8.552000000000001,
+      23.298000000000002,
+      27.394
+    ],
+    "cif_file": "3pyy_chain_subset.cif"
+  },
+  "5MO4_ALLOSTERIC_AY7": {
+    "center": [
+      -44.901709677419355,
+      20.490354838709674,
+      8.483354838709678
+    ],
+    "ligand_ccd": "AY7",
+    "ligand_type": "allosteric",
+    "num_atoms": 31,
+    "dimensions": [
+      11.681000000000004,
+      9.418999999999999,
+      9.633000000000001
+    ],
+    "cif_file": "5mo4_chain_subset.cif"
+  },
+  "3K5V_ORTHOSTERIC_STI": {
+    "center": [
+      26.069486486486486,
+      32.495378378378376,
+      40.54275675675675
+    ],
+    "ligand_ccd": "STI",
+    "ligand_type": "orthosteric",
+    "num_atoms": 74,
+    "dimensions": [
+      34.470000000000006,
+      40.222,
+      41.55
+    ],
+    "cif_file": "3k5v_chain_subset.cif"
+  },
+  "3K5V_ALLOSTERIC_STJ": {
+    "center": [
+      25.45505555555555,
+      32.53822222222222,
+      40.34850000000001
+    ],
+    "ligand_ccd": "STJ",
+    "ligand_type": "allosteric",
+    "num_atoms": 54,
+    "dimensions": [
+      19.491999999999997,
+      34.263999999999996,
+      34.42700000000001
+    ],
+    "cif_file": "3k5v_chain_subset.cif"
+  },
+  "1JQH_ORTHOSTERIC_ANP": {
+    "center": [
+      -15.4358494623656,
+      41.15338709677419,
+      -9.62124731182796
+    ],
+    "ligand_ccd": "ANP",
+    "ligand_type": "orthosteric",
+    "num_atoms": 93,
+    "dimensions": [
+      46.488,
+      47.38,
+      14.584
+    ],
+    "cif_file": "1jqh_chain_subset.cif"
+  },
+  "3I81_ORTHOSTERIC_EBI": {
+    "center": [
+      -15.284617647058823,
+      3.41070588235294,
+      10.852294117647057
+    ],
+    "ligand_ccd": "EBI",
+    "ligand_type": "orthosteric",
+    "num_atoms": 34,
+    "dimensions": [
+      8.097999999999999,
+      9.556000000000001,
+      7.223999999999999
+    ],
+    "cif_file": "3i81_chain_subset.cif"
+  },
+  "3LW0_ALLOSTERIC_CCX": {
+    "center": [
+      -2.466967857142855,
+      -34.090257142857155,
+      -38.914203571428516
+    ],
+    "ligand_ccd": "CCX",
+    "ligand_type": "allosteric",
+    "num_atoms": 280,
+    "dimensions": [
+      61.976,
+      66.57,
+      106.053
+    ],
+    "cif_file": "3lw0_chain_subset.cif"
+  },
+  "3NXU_ORTHOSTERIC_RIT": {
+    "center": [
+      31.445199999999996,
+      -22.323829999999994,
+      5.757889999999998
+    ],
+    "ligand_ccd": "RIT",
+    "ligand_type": "orthosteric",
+    "num_atoms": 100,
+    "dimensions": [
+      22.62,
+      28.019,
+      59.334999999999994
+    ],
+    "cif_file": "3nxu_chain_subset.cif"
+  },
+  "5A1R_ALLOSTERIC_STR": {
+    "center": [
+      -36.40213043478262,
+      -17.361391304347823,
+      -5.746956521739129
+    ],
+    "ligand_ccd": "STR",
+    "ligand_type": "allosteric",
+    "num_atoms": 23,
+    "dimensions": [
+      8.613999999999997,
+      4.981000000000002,
+      8.085999999999999
+    ],
+    "cif_file": "5a1r_chain_subset.cif"
+  },
+  "1MMN_ORTHOSTERIC_ANP": {
+    "center": [
+      38.797000000000004,
+      56.40896774193547,
+      20.036999999999995
+    ],
+    "ligand_ccd": "ANP",
+    "ligand_type": "orthosteric",
+    "num_atoms": 31,
+    "dimensions": [
+      12.647999999999996,
+      7.027999999999999,
+      9.032000000000002
+    ],
+    "cif_file": "1mmn_chain_subset.cif"
+  },
+  "1YV3_ALLOSTERIC_BIT": {
+    "center": [
+      22.32218181818182,
+      38.353363636363646,
+      37.23068181818183
+    ],
+    "ligand_ccd": "BIT",
+    "ligand_type": "allosteric",
+    "num_atoms": 22,
+    "dimensions": [
+      8.279999999999998,
+      5.844999999999999,
+      7.268999999999998
+    ],
+    "cif_file": "1yv3_chain_subset.cif"
+  },
+  "2AX9_ORTHOSTERIC_BHM": {
+    "center": [
+      26.93833333333333,
+      3.435428571428571,
+      4.052761904761907
+    ],
+    "ligand_ccd": "BHM",
+    "ligand_type": "orthosteric",
+    "num_atoms": 21,
+    "dimensions": [
+      7.651,
+      8.677999999999999,
+      3.381
+    ],
+    "cif_file": "2ax9_chain_subset.cif"
+  },
+  "2PIO_ORTHOSTERIC_DHT": {
+    "center": [
+      54.369428571428564,
+      2.222428571428572,
+      4.448476190476191
+    ],
+    "ligand_ccd": "DHT",
+    "ligand_type": "orthosteric",
+    "num_atoms": 21,
+    "dimensions": [
+      6.542000000000002,
+      9.261000000000001,
+      2.7249999999999996
+    ],
+    "cif_file": "2pio_chain_subset.cif"
+  },
+  "2YHD_ALLOSTERIC_AV6": {
+    "center": [
+      35.853523809523814,
+      8.687999999999999,
+      20.47828571428571
+    ],
+    "ligand_ccd": "AV6",
+    "ligand_type": "allosteric",
+    "num_atoms": 21,
+    "dimensions": [
+      4.335000000000001,
+      5.757,
+      9.581
+    ],
+    "cif_file": "2yhd_chain_subset.cif"
+  },
+  "2YLO_ALLOSTERIC_YLO": {
+    "center": [
+      -20.67768965517241,
+      15.749344827586206,
+      -31.50506896551724
+    ],
+    "ligand_ccd": "YLO",
+    "ligand_type": "allosteric",
+    "num_atoms": 29,
+    "dimensions": [
+      9.117,
+      8.581000000000001,
+      10.247
+    ],
+    "cif_file": "2ylo_chain_subset.cif"
+  },
+  "1BZC_ORTHOSTERIC_TPI": {
+    "center": [
+      -19.393827586206893,
+      54.273137931034476,
+      17.149896551724137
+    ],
+    "ligand_ccd": "TPI",
+    "ligand_type": "orthosteric",
+    "num_atoms": 29,
+    "dimensions": [
+      6.932,
+      12.423000000000002,
+      10.465
+    ],
+    "cif_file": "1bzc_chain_subset.cif"
+  },
+  "1T49_ALLOSTERIC_892": {
+    "center": [
+      56.01961111111112,
+      31.367222222222228,
+      22.486333333333345
+    ],
+    "ligand_ccd": "892",
+    "ligand_type": "allosteric",
+    "num_atoms": 36,
+    "dimensions": [
+      14.175999999999995,
+      7.612000000000002,
+      10.358
+    ],
+    "cif_file": "1t49_chain_subset.cif"
+  },
+  "3MVH_ORTHOSTERIC_WFE": {
+    "center": [
+      18.32641379310345,
+      -2.445551724137931,
+      28.05999999999999
+    ],
+    "ligand_ccd": "WFE",
+    "ligand_type": "orthosteric",
+    "num_atoms": 29,
+    "dimensions": [
+      10.055000000000001,
+      9.429,
+      4.324999999999999
+    ],
+    "cif_file": "3mvh_chain_subset.cif"
+  },
+  "4EJN_ALLOSTERIC_0R4": {
+    "center": [
+      35.389441860465126,
+      43.72113953488372,
+      18.443372093023253
+    ],
+    "ligand_ccd": "0R4",
+    "ligand_type": "allosteric",
+    "num_atoms": 43,
+    "dimensions": [
+      11.069000000000003,
+      10.949000000000005,
+      14.958000000000002
+    ],
+    "cif_file": "4ejn_chain_subset.cif"
+  },
+  "3FGU_ORTHOSTERIC_ANP": {
+    "center": [
+      -26.5371935483871,
+      -0.7189354838709674,
+      1.5564193548387095
+    ],
+    "ligand_ccd": "ANP",
+    "ligand_type": "orthosteric",
+    "num_atoms": 31,
+    "dimensions": [
+      7.765000000000001,
+      8.364999999999998,
+      11.612
+    ],
+    "cif_file": "3fgu_chain_subset.cif"
+  },
+  "1V4S_ALLOSTERIC_MRK": {
+    "center": [
+      40.21030434782608,
+      15.085434782608695,
+      61.973217391304345
+    ],
+    "ligand_ccd": "MRK",
+    "ligand_type": "allosteric",
+    "num_atoms": 23,
+    "dimensions": [
+      8.811999999999998,
+      9.238999999999999,
+      6.564
+    ],
+    "cif_file": "1v4s_chain_subset.cif"
+  },
+  "4IZY_ORTHOSTERIC_1J2": {
+    "center": [
+      -12.961030303030302,
+      6.374727272727274,
+      -21.268272727272727
+    ],
+    "ligand_ccd": "1J2",
+    "ligand_type": "orthosteric",
+    "num_atoms": 33,
+    "dimensions": [
+      10.61,
+      13.663,
+      6.262999999999998
+    ],
+    "cif_file": "4izy_chain_subset.cif"
+  },
+  "3O2M_ALLOSTERIC_46A": {
+    "center": [
+      39.85440322580646,
+      83.12695161290323,
+      43.874080645161285
+    ],
+    "ligand_ccd": "46A",
+    "ligand_type": "allosteric",
+    "num_atoms": 62,
+    "dimensions": [
+      13.186,
+      12.194000000000003,
+      13.410000000000004
+    ],
+    "cif_file": "3o2m_chain_subset.cif"
+  },
+  "5APH_ORTHOSTERIC_VYI": {
+    "center": [
+      -26.092689655172414,
+      8.051724137931034,
+      -15.491103448275862
+    ],
+    "ligand_ccd": "VYI",
+    "ligand_type": "orthosteric",
+    "num_atoms": 29,
+    "dimensions": [
+      7.281000000000002,
+      9.157,
+      5.767999999999999
+    ],
+    "cif_file": "5aph_chain_subset.cif"
+  },
+  "4YPQ_ALLOSTERIC_4F1": {
+    "center": [
+      -30.112903225806452,
+      16.845451612903226,
+      -26.19067741935484
+    ],
+    "ligand_ccd": "4F1",
+    "ligand_type": "allosteric",
+    "num_atoms": 31,
+    "dimensions": [
+      8.565000000000001,
+      8.591000000000001,
+      8.826
+    ],
+    "cif_file": "4ypq_chain_subset.cif"
+  },
+  "3ZCW_ORTHOSTERIC_ADP": {
+    "center": [
+      -9.39248148148148,
+      -1.9408148148148148,
+      28.995629629629633
+    ],
+    "ligand_ccd": "ADP",
+    "ligand_type": "orthosteric",
+    "num_atoms": 27,
+    "dimensions": [
+      4.462000000000001,
+      9.075,
+      9.504000000000001
+    ],
+    "cif_file": "3zcw_chain_subset.cif"
+  },
+  "2GM1_ALLOSTERIC_2AZ": {
+    "center": [
+      24.322729166666665,
+      38.13330555555554,
+      47.949763888888874
+    ],
+    "ligand_ccd": "2AZ",
+    "ligand_type": "allosteric",
+    "num_atoms": 144,
+    "dimensions": [
+      41.782,
+      11.622999999999998,
+      82.028
+    ],
+    "cif_file": "2gm1_chain_subset.cif"
+  },
+  "3WPN_ALLOSTERIC_B4S": {
+    "center": [
+      1.2081904761904767,
+      10.543047619047618,
+      36.68442857142857
+    ],
+    "ligand_ccd": "B4S",
+    "ligand_type": "allosteric",
+    "num_atoms": 21,
+    "dimensions": [
+      11.276,
+      3.4109999999999996,
+      3.982999999999997
+    ],
+    "cif_file": "3wpn_chain_subset.cif"
+  },
+  "1AXB_ORTHOSTERIC_FOS": {
+    "center": [
+      14.987933333333334,
+      10.285466666666666,
+      37.23253333333333
+    ],
+    "ligand_ccd": "FOS",
+    "ligand_type": "orthosteric",
+    "num_atoms": 15,
+    "dimensions": [
+      9.704,
+      3.891,
+      4.155000000000001
+    ],
+    "cif_file": "1axb_chain_subset.cif"
+  },
+  "1PZP_ALLOSTERIC_FTA": {
+    "center": [
+      8.469999999999999,
+      6.017195652173913,
+      14.197999999999999
+    ],
+    "ligand_ccd": "FTA",
+    "ligand_type": "allosteric",
+    "num_atoms": 46,
+    "dimensions": [
+      18.266,
+      23.195,
+      16.203
+    ],
+    "cif_file": "1pzp_chain_subset.cif"
+  },
+  "3PE2_ORTHOSTERIC_E1B": {
+    "center": [
+      22.82207692307692,
+      -29.87203846153846,
+      14.794653846153842
+    ],
+    "ligand_ccd": "E1B",
+    "ligand_type": "orthosteric",
+    "num_atoms": 26,
+    "dimensions": [
+      1.8170000000000002,
+      9.423000000000002,
+      10.161000000000001
+    ],
+    "cif_file": "3pe2_chain_subset.cif"
+  },
+  "6FVF_ALLOSTERIC_503": {
+    "center": [
+      -129.80230555555553,
+      -188.56388888888893,
+      303.5612777777778
+    ],
+    "ligand_ccd": "503",
+    "ligand_type": "allosteric",
+    "num_atoms": 36,
+    "dimensions": [
+      51.19500000000001,
+      12.955999999999989,
+      25.65599999999995
+    ],
+    "cif_file": "6fvf_chain_subset.cif"
+  },
+  "2IJM_ORTHOSTERIC_ATP": {
+    "center": [
+      2.388161290322581,
+      7.031483870967743,
+      7.835193548387098
+    ],
+    "ligand_ccd": "ATP",
+    "ligand_type": "orthosteric",
+    "num_atoms": 31,
+    "dimensions": [
+      7.9159999999999995,
+      11.475,
+      7.744999999999999
+    ],
+    "cif_file": "2ijm_chain_subset.cif"
+  },
+  "3BZ3_ORTHOSTERIC_YAM": {
+    "center": [
+      10.610514285714284,
+      3.1218571428571424,
+      6.0449142857142855
+    ],
+    "ligand_ccd": "YAM",
+    "ligand_type": "orthosteric",
+    "num_atoms": 35,
+    "dimensions": [
+      8.869,
+      9.53,
+      10.858
+    ],
+    "cif_file": "3bz3_chain_subset.cif"
+  },
+  "4EBV_ALLOSTERIC_0O7": {
+    "center": [
+      -10.727375,
+      3.5896666666666674,
+      -15.410750000000002
+    ],
+    "ligand_ccd": "0O7",
+    "ligand_type": "allosteric",
+    "num_atoms": 24,
+    "dimensions": [
+      5.481,
+      11.027,
+      8.33
+    ],
+    "cif_file": "4ebv_chain_subset.cif"
+  },
+  "3KF7_ORTHOSTERIC_L9G": {
+    "center": [
+      35.597448275862064,
+      37.97062068965518,
+      21.94651724137931
+    ],
+    "ligand_ccd": "L9G",
+    "ligand_type": "orthosteric",
+    "num_atoms": 29,
+    "dimensions": [
+      6.75,
+      5.770000000000003,
+      13.860000000000001
+    ],
+    "cif_file": "3kf7_chain_subset.cif"
+  },
+  "3NEW_ALLOSTERIC_3NE": {
+    "center": [
+      23.753875000000004,
+      16.524083333333333,
+      10.542708333333332
+    ],
+    "ligand_ccd": "3NE",
+    "ligand_type": "allosteric",
+    "num_atoms": 24,
+    "dimensions": [
+      5.087000000000003,
+      7.6190000000000015,
+      8.056000000000001
+    ],
+    "cif_file": "3new_chain_subset.cif"
+  }
+}
