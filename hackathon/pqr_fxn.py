@@ -3,6 +3,8 @@ file passed to pqr_to_coordinates_center should be the pocket{i}_vert.pqr file i
 model_0.pdb comes from boltz prediction of {protein_ligand_ID}.cif
 """
 
+from pathlib import Path
+
 def pqr_to_coordinates_center(file: Path) -> tuple[float, float, float]:
     input_file = file
     coordinates = []

@@ -82,7 +82,7 @@ def prepare_protein_ligand(datapoint_id: str, protein: Protein, ligands: list[Sm
     # will add contact constraints to the input_dict
 
     # Example: predict 5 structures
-    cli_args = ["--diffusion_samples", "5"]
+    cli_args = ["--diffusion_samples", "2"]
     return [(input_dict, cli_args)]
 
 def post_process_protein_complex(datapoint: Datapoint, input_dicts: List[dict[str, Any]], cli_args_list: List[list[str]], prediction_dirs: List[Path]) -> List[Path]:
@@ -114,7 +114,7 @@ def post_process_protein_ligand(datapoint: Datapoint, input_dicts: List[dict[str
         input_dicts: List of input dictionaries used for predictions (one per config)
         cli_args_list: List of command line arguments used for predictions (one per config)
         prediction_dirs: List of directories containing prediction results (one per config)
-    Returns: 
+    Returns:
         Sorted pdb file paths that should be used as your submission.
     """
     # Collect all PDBs from all configurations
@@ -122,7 +122,8 @@ def post_process_protein_ligand(datapoint: Datapoint, input_dicts: List[dict[str
     for prediction_dir in prediction_dirs:
         config_pdbs = sorted(prediction_dir.glob(f"{datapoint.datapoint_id}_config_*_model_*.pdb"))
         all_pdbs.extend(config_pdbs)
-    
+
+    docking_results = []
     for pdb in all_pdbs:
         subprocess.run(["pymol", "-cq", "hackathon/make_pdb_apo.py", "--", pdb])
         subprocess.run(["fpocket", "-f", pdb])
@@ -132,15 +133,15 @@ def post_process_protein_ligand(datapoint: Datapoint, input_dicts: List[dict[str
 
             docking_output_dir = pdb.parent
             data = datapoint.to_dict()
-            datapoint_id = data["datapoint"]
-            docking_results = prepare_and_dock(
+            datapoint_id = data["datapoint_id"]
+            docking_results.extend(prepare_and_dock(
                 pdb,
-                docking_output_dir / f"{datapoint_id}_receptor",
-                docking_output_dir / f"{datapoint_id}_ligand.pdbqt",
+                docking_output_dir / f"{datapoint_id}_pocket{i}_receptor",
+                docking_output_dir / f"{datapoint_id}_pocket{i}_ligand.pdbqt",
                 data["ligands"][0]["smiles"],
                 center
-            )
-    return docking_results
+            ))
+    final_results = [result for result, _score in sorted(docking_results, key=lambda result: result[1])]
 
 # -----------------------------------------------------------------------------
 # ---- End of participant section ---------------------------------------------
