@@ -10,10 +10,15 @@ from typing import Any, List, Optional
 
 import yaml
 from hackathon_api import Datapoint, Protein, SmallMolecule
+from pqr_fxn import pqr_to_coordinates_center
+from autodock import create_args, prepare_and_dock
 
 # ---------------------------------------------------------------------------
 # ---- Participants should modify these four functions ----------------------
 # ---------------------------------------------------------------------------
+
+NUM_POCKETS = 2
+
 
 def prepare_protein_complex(datapoint_id: str, proteins: List[Protein], input_dict: dict, msa_dir: Optional[Path] = None) -> List[tuple[dict, List[str]]]:
     """
@@ -118,9 +123,23 @@ def post_process_protein_ligand(datapoint: Datapoint, input_dicts: List[dict[str
         config_pdbs = sorted(prediction_dir.glob(f"{datapoint.datapoint_id}_config_*_model_*.pdb"))
         all_pdbs.extend(config_pdbs)
     
-    # Sort all PDBs and return their paths
-    all_pdbs = sorted(all_pdbs)
-    return all_pdbs
+    for pdb in all_pdbs:
+        subprocess.run(["fpocket", "-f", pdb])
+        fpocket_output_dir = pdb.with_name(f"{pdb.stem}_out") / "pockets"
+        for i in range(1, NUM_POCKETS+1):
+            center = pqr_to_coordinates_center(fpocket_output_dir / f"pocket{i}_vert.pqr")
+
+            docking_output_dir = pdb.parent
+            data = datapoint.to_dict()
+            datapoint_id = data["datapoint"]
+            docking_results = prepare_and_dock(
+                pdb,
+                docking_output_dir / f"{datapoint_id}_receptor",
+                docking_output_dir / f"{datapoint_id}_ligand.pdbqt",
+                data["ligands"][0]["smiles"],
+                center
+            )
+    return docking_results
 
 # -----------------------------------------------------------------------------
 # ---- End of participant section ---------------------------------------------
