@@ -6,6 +6,7 @@ from rdkit.Chem import AllChem
 
 import subprocess as sp
 
+import json
 
 def create_receptor_and_box(
     pdb_path: Path,
@@ -31,6 +32,8 @@ def create_receptor_and_box(
             str(center[1]),
             str(center[2]),
             "--allow_bad_res",
+            "--default_altloc",
+            "A",
         ]
     )
     return (Path(f"{output_name}.pdbqt"), Path(f"{output_name}.box.txt"))
@@ -51,6 +54,10 @@ def dock(receptor_path, ligand_path, box_path) -> None:
     subprocess.run(["vina", "--receptor", receptor_path, "--ligand", ligand_path, "--config", box_path, "--num_modes", "3"])
 
 
+def write_pdb(receptor_path, ligand_path, complex_path) -> None:
+    subprocess.run(["conda", "run", "-n", "pymol", "pymol", "-cq", Path("merge_complex.py"), "--", receptor_path, ligand_path, complex_path])
+    
+
 def prepare_and_dock(
     pdb_path, receptor_output_name, ligand_output_path, smiles, center, box_size
 ) -> None:
@@ -59,6 +66,7 @@ def prepare_and_dock(
     )
     create_conformer(smiles, ligand_output_path)
     dock(receptor_path, ligand_output_path, box_path)
+    write_pdb(receptor_path, ligand_output_path.with_name(f"{ligand_output_path.stem}_out.pdbqt"), ligand_output_path.with_name(ligand_output_path.stem.replace("ligand", "complex")))
 
 
 def create_args(
@@ -85,25 +93,20 @@ def create_args(
 
 output_dir = Path("my_docking_results")
 output_dir.mkdir(exist_ok=True)
-center = (
-      -2.3939714285714273,
-      8.393942857142857,
-      -17.81597142857143
-)
-prepare_and_dock(
-    *create_args(
-        {
-            "datapoint_id": "2E9N_ORTHOSTERIC_76A",
-            "ligands": [
-                {
-                    "id": "B",
-                    "smiles": "c1cc(ccc1c2ccc(cc2)O)c3c4c([nH]n3)-c5ccc(cc5C4)C(=O)NC6CCC(CC6)O",
-                }
-            ],
-        },
-        Path("my_predictions"),
-        output_dir,
-        center,
-        ground_truth=True
-    )
-)
+
+ground_truth_pockets = json.loads(Path("ground_truth_pockets.json").read_text())
+
+with Path("hackathon_data/datasets/asos_public/asos_public.jsonl").open("r") as f:
+    for line in f:
+        data = json.loads(line)
+        datapoint_id = data["datapoint_id"]
+        center = ground_truth_pockets[datapoint_id]["center"]
+        prepare_and_dock(
+            *create_args(
+                data,
+                Path("my_predictions"),
+                output_dir,
+                center,
+                ground_truth=True
+            )
+        )
