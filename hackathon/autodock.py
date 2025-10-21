@@ -59,7 +59,7 @@ def write_pdb(receptor_path, ligand_path, complex_path) -> None:
     
 
 def prepare_and_dock(
-    pdb_path, receptor_output_name, ligand_output_path, smiles, center, box_size=(20, 20, 20), num_modes: int = 3
+    pdb_path, receptor_output_name, ligand_output_path, smiles, center, box_size=(20, 20, 20), num_modes: int = 4
 ) -> list[(Path, float)]:
     receptor_path, box_path = create_receptor_and_box(
         pdb_path, receptor_output_name, center, box_size

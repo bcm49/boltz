@@ -82,7 +82,7 @@ def prepare_protein_ligand(datapoint_id: str, protein: Protein, ligands: list[Sm
     # will add contact constraints to the input_dict
 
     # Example: predict 5 structures
-    cli_args = ["--diffusion_samples", "2"]
+    cli_args = ["--diffusion_samples", "1"]
     return [(input_dict, cli_args)]
 
 def post_process_protein_complex(datapoint: Datapoint, input_dicts: List[dict[str, Any]], cli_args_list: List[list[str]], prediction_dirs: List[Path]) -> List[Path]:
@@ -142,6 +142,7 @@ def post_process_protein_ligand(datapoint: Datapoint, input_dicts: List[dict[str
                 center
             ))
     final_results = [result for result, _score in sorted(docking_results, key=lambda result: result[1])]
+    return final_results
 
 # -----------------------------------------------------------------------------
 # ---- End of participant section ---------------------------------------------
