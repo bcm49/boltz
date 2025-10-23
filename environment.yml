@@ -8,3 +8,4 @@ dependencies:
   - pymol-open-source
   - fpocket
   - autodock-vina
+  - prody
